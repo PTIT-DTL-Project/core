@@ -29,13 +29,13 @@ jobs:
       - name: Determine version
         id: version
         run: |
-          LATEST_TAG=$(git tag -l "v*" --sort=-v:refname | head -n1)
+          LATEST_TAG=$(git tag -l "v1.*" --sort=-v:refname | head -n1)
           if [ -z "$LATEST_TAG" ]; then
-            VERSION="v1.x"
+            VERSION="v1.0"
           else
-            MAJOR=$(echo "$LATEST_TAG" | sed 's/v//' | sed 's/\..*//')
-            MAJOR=$((MAJOR + 1))
-            VERSION="v$MAJOR.x"
+            MINOR=$(echo "$LATEST_TAG" | sed 's/v1\.//')
+            MINOR=$((MINOR + 1))
+            VERSION="v1.$MINOR"
           fi
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Determined version: $VERSION"
