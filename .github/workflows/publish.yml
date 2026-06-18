@@ -57,3 +57,9 @@ jobs:
             --title "${{ env.SERVICE_NAME }} ${{ steps.version.outputs.VERSION }}" \
             --latest \
             target/core-*.jar
+
+      - name: Trigger JitPack rebuild
+        run: |
+          curl -s -X POST https://jitpack.io/api/build/com.github.PTIT-DTL-Project/core \
+            -H "Content-Type: application/json" \
+            -d '{"tag":"main-SNAPSHOT"}'
